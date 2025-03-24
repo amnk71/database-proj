@@ -1,0 +1,78 @@
+Here's the adjusted and optimized timeline, considering your updated deadline of **April 25, 2025**. This timeline covers roughly **4½ weeks**, starting from today (March 24).
+
+## 📅 Adjusted Timeline (March 24 – April 25, 2025):
+
+---
+
+### 🚩 Week 1: **Mar 24 – Mar 30** *(Planning & Database Design)*
+
+| Member     | Tasks                                                  |
+|------------|--------------------------------------------------------|
+| **All**    | Environment setup, GitHub, tools, select advanced feature |
+| **Member 1** | ER diagram, DB schema design, initial SQL scripts      |
+| **Member 2** | Review schema, set up database connectivity           |
+| **Member 3** | Basic Python structure, GUI or console setup          |
+
+---
+
+### 🚩 Week 2: **Mar 31 – Apr 6** *(Database & Backend Development)*
+
+| Member     | Tasks                                                  |
+|------------|--------------------------------------------------------|
+| **Member 1** | Finalize SQL scripts, Database normalization & integrity|
+| **Member 2** | Backend implementation (CRUD operations, embedded SQL) |
+| **Member 3** | GUI or Console Interface development                  |
+
+---
+
+### 🚩 Week 3: **Apr 7 – Apr 13** *(Core Functionality & Advanced Feature)*
+
+| Member     | Tasks                                                     |
+|------------|-----------------------------------------------------------|
+| **Member 2** | Finish backend logic, order processing, error handling  |
+| **Member 3** | Develop chosen advanced feature                         |
+| **Member 1** | Adjust database for advanced feature, optimize queries  |
+
+---
+
+### 🚩 Week 4: **Apr 14 – Apr 20** *(Integration, Debugging & Testing)*
+
+| Member     | Tasks                                                      |
+|------------|------------------------------------------------------------|
+| **Member 1** | Database testing, query optimization, error checks       |
+| **Member 2** | Backend testing, debugging                               |
+| **Member 3** | Interface testing, Advanced feature debugging            |
+| **All**      | Full integration testing                                 |
+
+---
+
+### 🚩 Final Days: **Apr 21 – Apr 25** *(Documentation & Submission)*
+
+| Member     | Tasks                                                       |
+|------------|-------------------------------------------------------------|
+| **Member 1** | Complete database documentation & ER diagrams             |
+| **Member 2** | Backend documentation, clearly comment code               |
+| **Member 3** | User manual, final documentation of UI and features       |
+| **All**      | Prepare final presentation/demo, final testing, submit    |
+
+---
+
+## 🗓️ **Key Milestone Summary:**
+
+| Date          | Milestone                                   |
+|---------------|---------------------------------------------|
+| **Mar 30**    | Database Design Complete                    |
+| **Apr 6**     | Core backend & initial UI Complete          |
+| **Apr 13**    | Advanced feature & Backend finalized        |
+| **Apr 20**    | Integration and debugging complete          |
+| **Apr 25**    | Submission and Presentation                 |
+
+---
+
+## ⏳ **Recommended Practices:**
+
+- **Weekly progress checks:** Hold meetings every few days to track progress.
+- **Communication:** Immediately raise and address any bottlenecks.
+- **Buffer days:** Keep the final 1-2 days flexible for unexpected issues.
+
+Following this updated timeline ensures you deliver a high-quality project by your **April 25 deadline**.
