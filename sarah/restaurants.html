@@ -24,8 +24,21 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       color: #333;
+    }
+
+    .search-bar {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      width: 60%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     .restaurant-list {
@@ -109,9 +122,21 @@
 <body>
   <div class="restaurants-page">
     <h2>Available Restaurants</h2>
+
+    <!-- 🔍 Search bar -->
+    <div class="search-bar">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search restaurants..."
+      />
+    </div>
+
+    <!-- 🏬 Restaurant list -->
     <div id="restaurantList" class="restaurant-list"></div>
   </div>
 
+  <!-- 📋 Modal Menu -->
   <div id="menuModal" class="modal">
     <div class="modal-content">
       <span class="close-button" onclick="closeModal()">&times;</span>
@@ -127,6 +152,7 @@
     </div>
   </div>
 
+  <!-- 📜 JS script -->
   <script>
     const restaurants = [
       { name: "Sakura Sushi", cuisine: "Japanese", address: "123 Tokyo St" },
@@ -283,6 +309,17 @@
     function closeModal() {
       document.getElementById("menuModal").style.display = "none";
     }
+
+    // 🔍 Live filtering search bar
+    document.getElementById("searchInput").addEventListener("input", function () {
+      const query = this.value.toLowerCase();
+      const cards = document.querySelectorAll(".restaurant-card");
+
+      cards.forEach(card => {
+        const name = card.querySelector("h3").textContent.toLowerCase();
+        card.style.display = name.includes(query) ? "block" : "none";
+      });
+    });
   </script>
 </body>
 </html>
