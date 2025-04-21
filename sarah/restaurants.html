@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurants</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #aed5c2;
+      background-image: url('../images/bg-pattern.png');
+      background-repeat: repeat;
+      background-size: 350px;
+      background-attachment: fixed;
+    }
+
+    .restaurants-page {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .restaurant-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .restaurant-card {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 6px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .restaurant-card h3 {
+      margin-top: 0;
+      color: #e24040;
+    }
+
+    .restaurant-card p {
+      margin: 5px 0;
+    }
+
+    .view-button {
+      background-color: #e24040;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-top: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .view-button:hover {
+      background-color: #cc3931;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      width: 400px;
+      height: 100%;
+      background-color: white;
+      box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .modal-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .close-button {
+      align-self: flex-end;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .modal-content h3 {
+      margin-top: 10px;
+      color: #e24040;
+    }
+
+    .modal-content ul {
+      padding-left: 20px;
+    }
+
+    .modal-content li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="restaurants-page">
+    <h2>Available Restaurants</h2>
+    <div id="restaurantList" class="restaurant-list"></div>
+  </div>
+
+  <div id="menuModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal()">&times;</span>
+      <h3 id="menuTitle"></h3>
+      <ul id="menuItems"></ul>
+      <hr />
+      <h4>🛒 Cart</h4>
+      <ul id="cartItems"></ul>
+      <p><strong>Total:</strong> <span id="cartTotal">$0</span></p>
+      <button onclick="checkout()" style="background:#4CAF50; color:white; padding:8px 14px; border:none; border-radius:4px; cursor:pointer;">
+        Checkout
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const restaurants = [
+      { name: "Sakura Sushi", cuisine: "Japanese", address: "123 Tokyo St" },
+      { name: "Bella Italia", cuisine: "Italian", address: "456 Rome Ave" },
+      { name: "Spice Route", cuisine: "Indian", address: "789 Delhi Blvd" },
+      { name: "Tacos El Mexicano", cuisine: "Mexican", address: "321 Mexico City Rd" },
+      { name: "Burger House", cuisine: "American", address: "654 NYC Lane" },
+      { name: "Green Garden", cuisine: "Vegetarian", address: "888 Fresh Way" },
+      { name: "Dragon Wok", cuisine: "Chinese", address: "222 Beijing Rd" },
+      { name: "Le Gourmet", cuisine: "French", address: "101 Paris Lane" }
+    ];
+
+    const menus = {
+      "Sakura Sushi": [
+        { name: "Salmon Roll", price: "$10" },
+        { name: "Tuna Nigiri", price: "$8" },
+        { name: "Eel Handroll", price: "$11" },
+        { name: "Miso Soup", price: "$3" },
+        { name: "Seaweed Salad", price: "$4" }
+      ],
+      "Bella Italia": [
+        { name: "Spaghetti Carbonara", price: "$12" },
+        { name: "Margherita Pizza", price: "$11" },
+        { name: "Tiramisu", price: "$6" },
+        { name: "Focaccia", price: "$5" },
+        { name: "Minestrone Soup", price: "$7" }
+      ],
+      "Spice Route": [
+        { name: "Butter Chicken", price: "$13" },
+        { name: "Garlic Naan", price: "$3" },
+        { name: "Paneer Tikka", price: "$9" },
+        { name: "Biryani", price: "$12" },
+        { name: "Mango Lassi", price: "$4" }
+      ],
+      "Tacos El Mexicano": [
+        { name: "Beef Taco", price: "$4" },
+        { name: "Quesadilla", price: "$6" },
+        { name: "Nachos", price: "$7" },
+        { name: "Guacamole", price: "$5" },
+        { name: "Churros", price: "$4" }
+      ],
+      "Burger House": [
+        { name: "Cheeseburger", price: "$7" },
+        { name: "Fries", price: "$3" },
+        { name: "Onion Rings", price: "$4" },
+        { name: "Milkshake", price: "$5" },
+        { name: "Chicken Burger", price: "$8" }
+      ],
+      "Green Garden": [
+        { name: "Vegan Bowl", price: "$9" },
+        { name: "Grilled Tofu", price: "$8" },
+        { name: "Lentil Soup", price: "$6" },
+        { name: "Stuffed Peppers", price: "$7" },
+        { name: "Fruit Salad", price: "$5" }
+      ],
+      "Dragon Wok": [
+        { name: "Kung Pao Chicken", price: "$10" },
+        { name: "Fried Rice", price: "$6" },
+        { name: "Spring Rolls", price: "$4" },
+        { name: "Sweet & Sour Pork", price: "$11" },
+        { name: "Hot & Sour Soup", price: "$5" }
+      ],
+      "Le Gourmet": [
+        { name: "Duck Confit", price: "$18" },
+        { name: "Crème brûlée", price: "$7" },
+        { name: "Ratatouille", price: "$12" },
+        { name: "French Onion Soup", price: "$8" },
+        { name: "Escargot", price: "$14" }
+      ]
+    };
+
+    let cart = [];
+
+    function addToCart(item) {
+      cart.push(item);
+      updateCartDisplay();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const cartList = document.getElementById("cartItems");
+      const cartTotal = document.getElementById("cartTotal");
+
+      cartList.innerHTML = "";
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          ${item.name} – ${item.price}
+          <button onclick="removeFromCart(${index})"
+            style="margin-left:10px; background:#999; color:white; border:none; padding:2px 6px; border-radius:3px; cursor:pointer;">
+            Remove
+          </button>
+        `;
+        cartList.appendChild(li);
+        total += parseFloat(item.price.replace("$", ""));
+      });
+
+      cartTotal.textContent = "$" + total.toFixed(2);
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+
+      alert("Thank you for your order! 🛍️");
+      cart = [];
+      updateCartDisplay();
+    }
+
+    const list = document.getElementById("restaurantList");
+
+    restaurants.forEach((restaurant) => {
+      const card = document.createElement("div");
+      card.className = "restaurant-card";
+      card.innerHTML = `
+        <h3>${restaurant.name}</h3>
+        <p><strong>Cuisine:</strong> ${restaurant.cuisine}</p>
+        <p><strong>Address:</strong> ${restaurant.address}</p>
+        <button class="view-button" onclick="showMenu('${restaurant.name}')">View Menu</button>
+      `;
+      list.appendChild(card);
+    });
+
+    function showMenu(restaurantName) {
+      const menu = menus[restaurantName] || [];
+      const modal = document.getElementById("menuModal");
+      const title = document.getElementById("menuTitle");
+      const list = document.getElementById("menuItems");
+
+      title.textContent = restaurantName + " Menu";
+      list.innerHTML = "";
+
+      menu.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          ${item.name} – ${item.price}
+          <button style="margin-left: 10px; background:#e24040; color:white; border:none; border-radius:4px; padding:2px 6px; cursor:pointer;"
+            onclick='addToCart(${JSON.stringify(item)})'>Add</button>
+        `;
+        list.appendChild(li);
+      });
+
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("menuModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
